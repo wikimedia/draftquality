@@ -22,19 +22,20 @@ datasets/enwiki.draft_quality.201508-201608.tsv.bz2: \
 		datasets/enwiki.draft_quality.201605.tsv.bz2 \
 		datasets/enwiki.draft_quality.201606.tsv.bz2 \
 		datasets/enwiki.draft_quality.201607.tsv.bz2
-	cat \
-	  datasets/enwiki.draft_quality.201508.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201509.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201510.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201511.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201512.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201601.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201602.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201603.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201604.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201605.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201606.tsv.bz2 \
-	  datasets/enwiki.draft_quality.201607.tsv.bz2 | bzip2 -c > \
+	( \
+	  bzcat datasets/enwiki.draft_quality.201508.tsv.bz2; \
+	  bzcat datasets/enwiki.draft_quality.201509.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201510.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201511.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201512.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201601.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201602.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201603.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201604.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201605.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201606.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201607.tsv.bz2 | tail -n+2 \
+	) | bzip2 -c > \
 	datasets/enwiki.draft_quality.201508-201608.tsv.bz2
 
 datasets/enwiki.draft_quality.201508.tsv.bz2: \
