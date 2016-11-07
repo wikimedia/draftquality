@@ -121,3 +121,12 @@ datasets/enwiki.draft_quality.201607.tsv.bz2: \
 	cat - sql/draft_quality.variables.sql | \
 	$(mysqlc) enwiki | bzip2 -c > \
 	datasets/enwiki.draft_quality.201607.tsv.bz2
+
+datasets/enwiki.draft_quality.75_sample.tsv: \
+		datasets/enwiki.draft_quality.201508-201608.tsv.bz2
+	(
+	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | head -n 1;
+	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P "spam$" | shuf -n 25;
+	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P "attack$" | shuf -n 25;
+	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P "vandalism$" | shuf -n 25
+	) > datasets/enwiki.draft_quality.75_sample.tsv	
