@@ -39,6 +39,20 @@ tuning_reports/enwiki.draft_quality.md: \
 	  --debug > \
 	tuning_reports/enwiki.draft_quality.md
 
+models/enwiki.draft_quality.gradient_boosting.model: \
+		datasets/enwiki.draft_quality.50k_stratified.with_cache.json.bz2
+	bzcat datasets/enwiki.draft_quality.50k_stratified.with_cache.json.bz2 | \
+        revscoring cv_train \
+	  revscoring.scorer_models.GradientBoosting \
+	  draftquality.feature_lists.enwiki.draft_quality \
+	  draft_quality \
+	  -p 'learning_rate=0.01' \
+          -p 'max_features="log2"' \
+          -p 'max_depth=7' \
+          -p 'n_estimators=700' \
+	  -s 'table' -s 'accuracy' -s 'roc' -s 'f1' > \
+	models/enwiki.draft_quality.gradient_boosting.model
+
 ############### Big dataset ###################################################
 
 host=analytics-store.eqiad.wmnet
