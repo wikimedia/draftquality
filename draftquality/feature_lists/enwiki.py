@@ -3,71 +3,72 @@ from revscoring.features.modifiers import max, sub
 from revscoring.languages import english
 
 char_based = [
-  wikitext.revision.chars,
-  wikitext.revision.whitespace_chars,
-  wikitext.revision.markup_chars,
-  wikitext.revision.cjk_chars,
-  wikitext.revision.entity_chars,
-  wikitext.revision.url_chars,
-  wikitext.revision.word_chars,
-  wikitext.revision.uppercase_word_chars,
-  wikitext.revision.punctuation_chars,
-  wikitext.revision.break_chars,
-  wikitext.revision.longest_repeated_char
+    wikitext.revision.chars,
+    wikitext.revision.whitespace_chars,
+    wikitext.revision.markup_chars,
+    wikitext.revision.cjk_chars,
+    wikitext.revision.entity_chars,
+    wikitext.revision.url_chars,
+    wikitext.revision.word_chars,
+    wikitext.revision.uppercase_word_chars,
+    wikitext.revision.punctuation_chars,
+    wikitext.revision.break_chars,
+    wikitext.revision.longest_repeated_char,
+    wikitext.revision.whitespace_chars / max(wikitext.revision.chars, 1),
+    wikitext.revision.markup_chars / max(wikitext.revision.chars, 1),
+    wikitext.revision.cjk_chars / max(wikitext.revision.chars, 1),
+    wikitext.revision.entity_chars / max(wikitext.revision.chars, 1),
+    wikitext.revision.url_chars / max(wikitext.revision.chars, 1),
+    wikitext.revision.word_chars / max(wikitext.revision.chars, 1),
+    wikitext.revision.uppercase_word_chars / max(wikitext.revision.chars, 1),
+    wikitext.revision.punctuation_chars / max(wikitext.revision.chars, 1),
+    wikitext.revision.break_chars / max(wikitext.revision.chars, 1),
+    wikitext.revision.longest_repeated_char / max(wikitext.revision.chars, 1)
 ]
 
 token_based = [
-  wikitext.revision.tokens,
-  wikitext.revision.numbers,
-  wikitext.revision.whitespaces,
-  wikitext.revision.markups,
-  wikitext.revision.cjks,
-  wikitext.revision.entities,
-  wikitext.revision.urls,
-  wikitext.revision.words,
-  wikitext.revision.uppercase_words,
-  wikitext.revision.punctuations,
-  wikitext.revision.breaks,
-  wikitext.revision.longest_token,
-  wikitext.revision.longest_word
+    wikitext.revision.tokens,
+    wikitext.revision.numbers,
+    wikitext.revision.whitespaces,
+    wikitext.revision.markups,
+    wikitext.revision.cjks,
+    wikitext.revision.entities,
+    wikitext.revision.urls,
+    wikitext.revision.words,
+    wikitext.revision.uppercase_words,
+    wikitext.revision.punctuations,
+    wikitext.revision.breaks,
+    wikitext.revision.longest_token,
+    wikitext.revision.longest_word,
+    wikitext.revision.numbers / max(wikitext.revision.tokens, 1),
+    wikitext.revision.whitespaces / max(wikitext.revision.tokens, 1),
+    wikitext.revision.markups / max(wikitext.revision.tokens, 1),
+    wikitext.revision.cjks / max(wikitext.revision.tokens, 1),
+    wikitext.revision.entities / max(wikitext.revision.tokens, 1),
+    wikitext.revision.urls / max(wikitext.revision.tokens, 1),
+    wikitext.revision.words / max(wikitext.revision.tokens, 1),
+    wikitext.revision.uppercase_words / max(wikitext.revision.tokens, 1),
+    wikitext.revision.punctuations / max(wikitext.revision.tokens, 1),
+    wikitext.revision.breaks / max(wikitext.revision.tokens, 1),
+    wikitext.revision.longest_token / max(wikitext.revision.tokens, 1),
+    wikitext.revision.longest_word / max(wikitext.revision.tokens, 1)
 ]
 
 parse_based = [
-  wikitext.revision.content_chars,
-  wikitext.revision.headings,
-  wikitext.revision.external_links,
-  wikitext.revision.wikilinks,
-  wikitext.revision.tags,
-  wikitext.revision.ref_tags,
-  wikitext.revision.templates
-]
-
-char_normalized = [
-  wikitext.revision.whitespace_chars / max(wikitext.revision.chars, 1),
-  wikitext.revision.markup_chars / max(wikitext.revision.chars, 1),
-  wikitext.revision.cjk_chars / max(wikitext.revision.chars, 1),
-  wikitext.revision.entity_chars / max(wikitext.revision.chars, 1),
-  wikitext.revision.url_chars / max(wikitext.revision.chars, 1),
-  wikitext.revision.word_chars / max(wikitext.revision.chars, 1),
-  wikitext.revision.uppercase_word_chars / max(wikitext.revision.chars, 1),
-  wikitext.revision.punctuation_chars / max(wikitext.revision.chars, 1),
-  wikitext.revision.break_chars / max(wikitext.revision.chars, 1),
-  wikitext.revision.longest_repeated_char / max(wikitext.revision.chars, 1),
-]
-
-token_normalized = [
-  wikitext.revision.numbers / max(wikitext.revision.tokens, 1),
-  wikitext.revision.whitespaces / max(wikitext.revision.tokens, 1),
-  wikitext.revision.markups / max(wikitext.revision.tokens, 1),
-  wikitext.revision.cjks / max(wikitext.revision.tokens, 1),
-  wikitext.revision.entities / max(wikitext.revision.tokens, 1),
-  wikitext.revision.urls / max(wikitext.revision.tokens, 1),
-  wikitext.revision.words / max(wikitext.revision.tokens, 1),
-  wikitext.revision.uppercase_words / max(wikitext.revision.tokens, 1),
-  wikitext.revision.punctuations / max(wikitext.revision.tokens, 1),
-  wikitext.revision.breaks / max(wikitext.revision.tokens, 1),
-  wikitext.revision.longest_token / max(wikitext.revision.tokens, 1),
-  wikitext.revision.longest_word / max(wikitext.revision.tokens, 1)
+    wikitext.revision.content_chars,
+    wikitext.revision.headings,
+    wikitext.revision.external_links,
+    wikitext.revision.wikilinks,
+    wikitext.revision.tags,
+    wikitext.revision.ref_tags,
+    wikitext.revision.templates,
+    wikitext.revision.content_chars / max(wikitext.revision.tokens, 1),
+    wikitext.revision.headings / max(wikitext.revision.tokens, 1),
+    wikitext.revision.external_links / max(wikitext.revision.tokens, 1),
+    wikitext.revision.wikilinks / max(wikitext.revision.tokens, 1),
+    wikitext.revision.tags / max(wikitext.revision.tokens, 1),
+    wikitext.revision.ref_tags / max(wikitext.revision.tokens, 1),
+    wikitext.revision.templates / max(wikitext.revision.tokens, 1)
 ]
 
 badwords = [
@@ -84,7 +85,8 @@ dict_words = [
     english.dictionary.revision.dict_words,
     english.dictionary.revision.non_dict_words,
     english.dictionary.revision.dict_words / max(wikitext.revision.words, 1),
-    english.dictionary.revision.non_dict_words / max(wikitext.revision.words, 1)
+    (english.dictionary.revision.non_dict_words /
+     max(wikitext.revision.words, 1))
 ]
 
 # Templates
@@ -131,9 +133,9 @@ local_wiki = [
     non_cite_templates,
     non_cite_templates / max(wikitext.revision.content_chars, 1),
     infobox_templates,
-    cn_templates + 1,
+    cn_templates,
     cn_templates / max(wikitext.revision.content_chars, 1),
-    who_templates + 1,
+    who_templates,
     who_templates / max(wikitext.revision.content_chars, 1),
     main_article_templates,
     main_article_templates / max(wikitext.revision.content_chars, 1),
@@ -142,5 +144,4 @@ local_wiki = [
 ]
 
 draft_quality = (char_based + token_based + parse_based +
-                 char_normalized + token_normalized +
                  badwords + informals + dict_words + local_wiki)
