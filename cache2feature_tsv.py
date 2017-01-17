@@ -5,6 +5,15 @@ Usage:
     cache2feature_tsv.py <features> <label>
                          [--verbose]
                          [--debug]
+
+
+Options:
+    -h --help               Prints this documentation
+    <features>              Classpath to an list of features to use when
+                            constructing the model
+    <label>                 The name of the field to be predicted
+    --verbose               Prints dots and stuff to indicate progress.
+    --debug                 Print debug logging.
 """
 import logging
 import sys
@@ -51,3 +60,7 @@ def run(observations, features, label_name, verbose):
 
     if verbose:
         sys.stderr.write("\n")
+
+
+if __name__ == "__main__":
+	main(sys.argv[1:])
