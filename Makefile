@@ -50,7 +50,8 @@ models/enwiki.draft_quality.gradient_boosting.model: \
           -p 'max_features="log2"' \
           -p 'max_depth=7' \
           -p 'n_estimators=700' \
-	  -s 'table' -s 'accuracy' -s 'roc' -s 'f1' > \
+	  -s 'table' -s 'accuracy' -s 'roc' -s 'f1' \
+	  --version 0.0.1 > \
 	models/enwiki.draft_quality.gradient_boosting.model
 
 ############### Big dataset ###################################################
