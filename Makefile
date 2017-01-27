@@ -184,3 +184,56 @@ datasets/enwiki.draft_quality.300_not_OK_sample.tsv: \
 	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'attack$$' | shuf -n 100; \
 	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'vandalism$$' | shuf -n 100 \
 	) > datasets/enwiki.draft_quality.300_not_OK_sample.tsv
+
+
+datasets/enwiki.draft_quality.201608-201701.tsv.bz2: \
+                datasets/enwiki.draft_quality.201608.tsv.bz2 \
+                datasets/enwiki.draft_quality.201609.tsv.bz2 \
+                datasets/enwiki.draft_quality.201610.tsv.bz2 \
+                datasets/enwiki.draft_quality.201611.tsv.bz2 \
+                datasets/enwiki.draft_quality.201612.tsv.bz2
+        ( \
+          bzcat datasets/enwiki.draft_quality.201608.tsv.bz2; \
+          bzcat datasets/enwiki.draft_quality.201609.tsv.bz2 | tail -n+2; \
+          bzcat datasets/enwiki.draft_quality.201610.tsv.bz2 | tail -n+2; \
+          bzcat datasets/enwiki.draft_quality.201611.tsv.bz2 | tail -n+2; \
+          bzcat datasets/enwiki.draft_quality.201612.tsv.bz2 | tail -n+2 \
+        ) | bzip2 -c > \
+        datasets/enwiki.draft_quality.201608-201701.tsv.bz2
+
+datasets/enwiki.draft_quality.201608.tsv.bz2: \
+		sql/draft_quality.variables.sql
+	echo 'SET @start="201608", @end="201609";' | \
+	cat - sql/draft_quality.variables.sql | \
+	$(mysqlc) enwiki | bzip2 -c > \
+	datasets/enwiki.draft_quality.201608.tsv.bz2
+
+datasets/enwiki.draft_quality.201609.tsv.bz2: \
+		sql/draft_quality.variables.sql
+	echo 'SET @start="201609", @end="201610";' | \
+	cat - sql/draft_quality.variables.sql | \
+	$(mysqlc) enwiki | bzip2 -c > \
+	datasets/enwiki.draft_quality.201609.tsv.bz2
+
+datasets/enwiki.draft_quality.201610.tsv.bz2: \
+		sql/draft_quality.variables.sql
+	echo 'SET @start="201610", @end="201611";' | \
+	cat - sql/draft_quality.variables.sql | \
+	$(mysqlc) enwiki | bzip2 -c > \
+	datasets/enwiki.draft_quality.201610.tsv.bz2
+
+datasets/enwiki.draft_quality.201611.tsv.bz2: \
+		sql/draft_quality.variables.sql
+	echo 'SET @start="201611", @end="201612";' | \
+	cat - sql/draft_quality.variables.sql | \
+	$(mysqlc) enwiki | bzip2 -c > \
+	datasets/enwiki.draft_quality.201611.tsv.bz2
+
+datasets/enwiki.draft_quality.201612.tsv.bz2: \
+		sql/draft_quality.variables.sql
+	echo 'SET @start="201612", @end="201701";' | \
+	cat - sql/draft_quality.variables.sql | \
+	$(mysqlc) enwiki | bzip2 -c > \
+	datasets/enwiki.draft_quality.201612.tsv.bz2
+
+
