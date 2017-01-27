@@ -122,11 +122,11 @@ datasets/enwiki.draft_quality.201607.tsv.bz2: \
 	$(mysqlc) enwiki | bzip2 -c > \
 	datasets/enwiki.draft_quality.201607.tsv.bz2
 
-datasets/enwiki.draft_quality.300_not_OK_sample.tsv: \
+datasets/enwiki.draft_quality.75_not_OK_sample.tsv: \
 		datasets/enwiki.draft_quality.201508-201608.tsv.bz2
 	( \
 	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | head -n 1; \
-	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'spam$$' | shuf -n 100; \
-	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'attack$$' | shuf -n 100; \
-	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'vandalism$$' | shuf -n 100 \
-	) > datasets/enwiki.draft_quality.300_not_OK_sample.tsv	
+	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'spam$$' | shuf -n 25; \
+	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'attack$$' | shuf -n 25; \
+	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'vandalism$$' | shuf -n 25 \
+	) > datasets/enwiki.draft_quality.75_not_OK_sample.tsv	
