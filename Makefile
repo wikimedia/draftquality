@@ -186,19 +186,19 @@ datasets/enwiki.draft_quality.75_not_OK_sample.tsv: \
 	) > datasets/enwiki.draft_quality.75_not_OK_sample.tsv	
 
 datasets/enwiki.draft_quality.201608-201701.tsv.bz2: \
-                datasets/enwiki.draft_quality.201608.tsv.bz2 \
-                datasets/enwiki.draft_quality.201609.tsv.bz2 \
-                datasets/enwiki.draft_quality.201610.tsv.bz2 \
-                datasets/enwiki.draft_quality.201611.tsv.bz2 \
-                datasets/enwiki.draft_quality.201612.tsv.bz2
-        ( \
-          bzcat datasets/enwiki.draft_quality.201608.tsv.bz2; \
-          bzcat datasets/enwiki.draft_quality.201609.tsv.bz2 | tail -n+2; \
-          bzcat datasets/enwiki.draft_quality.201610.tsv.bz2 | tail -n+2; \
-          bzcat datasets/enwiki.draft_quality.201611.tsv.bz2 | tail -n+2; \
-          bzcat datasets/enwiki.draft_quality.201612.tsv.bz2 | tail -n+2 \
-        ) | bzip2 -c > \
-        datasets/enwiki.draft_quality.201608-201701.tsv.bz2
+		datasets/enwiki.draft_quality.201608.tsv.bz2 \
+		datasets/enwiki.draft_quality.201609.tsv.bz2 \
+		datasets/enwiki.draft_quality.201610.tsv.bz2 \
+		datasets/enwiki.draft_quality.201611.tsv.bz2 \
+		datasets/enwiki.draft_quality.201612.tsv.bz2
+	( \
+	  bzcat datasets/enwiki.draft_quality.201608.tsv.bz2; \
+	  bzcat datasets/enwiki.draft_quality.201609.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201610.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201611.tsv.bz2 | tail -n+2; \
+	  bzcat datasets/enwiki.draft_quality.201612.tsv.bz2 | tail -n+2 \
+	) | bzip2 -c > \
+	datasets/enwiki.draft_quality.201608-201701.tsv.bz2
 
 datasets/enwiki.draft_quality.201608.tsv.bz2: \
 		sql/draft_quality.variables.sql
@@ -236,22 +236,22 @@ datasets/enwiki.draft_quality.201612.tsv.bz2: \
 	datasets/enwiki.draft_quality.201612.tsv.bz2
 
 datasets/enwiki.draft_quality.201608-201701.json: \
-                datasets/enwiki.draft_quality.201608-201701.tsv.bz2
-        bzcat datasets/enwiki.draft_quality.201608-201701.tsv.bz2 | \
-        tsv2json str int str int str > \
-        datasets/enwiki.draft_quality.201608-201701.json
+		datasets/enwiki.draft_quality.201608-201701.tsv.bz2
+	bzcat datasets/enwiki.draft_quality.201608-201701.tsv.bz2 | \
+	tsv2json str int str int str > \
+	datasets/enwiki.draft_quality.201608-201701.json
 
 datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2: \
-                datasets/enwiki.draft_quality.201608-201701.json
-        cat datasets/enwiki.draft_quality.201608-201701.json | \
-        revscoring fetch_text --host https://en.wikipedia.org \
-          --verbose | bzip2 -c > \
-        datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2
+		datasets/enwiki.draft_quality.201608-201701.json
+	cat datasets/enwiki.draft_quality.201608-201701.json | \
+	revscoring fetch_text --host https://en.wikipedia.org \
+	  --verbose | bzip2 -c > \
+	datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2
 
 datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2: \
-                datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2
-        bzcat datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2 | \
-        wikiclass extract_from_text \
-          draftquality.feature_lists.enwiki.draft_quality \
-          --verbose | bzip2 -c > \
-        datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2
+		datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2
+	bzcat datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2 | \
+	wikiclass extract_from_text \
+	  draftquality.feature_lists.enwiki.draft_quality \
+	  --verbose | bzip2 -c > \
+	datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2
