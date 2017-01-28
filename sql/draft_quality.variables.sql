@@ -20,7 +20,7 @@ SELECT
   True AS archived,
   IF(log_comment REGEXP "WP:CSD#G3\\|", "vandalism",
        IF(log_comment REGEXP "WP:CSD#G10\\|", "attack",
-       IF(log_comment REGEXP "WP:CSD#G11\\|", "spam", "OK")))) AS draft_quality 
+       IF(log_comment REGEXP "WP:CSD#G11\\|", "spam", "OK"))) AS draft_quality 
 FROM archive 
 LEFT JOIN logging speedy_delete ON
   log_namespace = ar_namespace AND
