@@ -1,35 +1,39 @@
+#datasets/enwiki.draft_quality.50k_stratified.json: \
+#	       datasets/enwiki.draft_quality.201508-201608.tsv.bz2
+#       ( \
+#	 bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | \
+#	 tsv2json str int str int str | \
+#	 grep '"draft_quality": "OK"' | shuf -n 26257; \
+#	 bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | \
+#	 tsv2json str int str int str | \
+#	 grep -v '"draft_quality": "OK"' \
+#       ) > \
+#       datasets/enwiki.draft_quality.50k_stratified.json
 
-
-datasets/enwiki.draft_quality.50k_stratified.json: \
+datasets/enwiki.draft_quality.201508-201608.json.bz2: \
 		datasets/enwiki.draft_quality.201508-201608.tsv.bz2
-	( \
-	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | \
-	  tsv2json str int str int str | \
-	  grep '"draft_quality": "OK"' | shuf -n 26257; \
-	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | \
-	  tsv2json str int str int str | \
-	  grep -v '"draft_quality": "OK"' \
-	) > \
-	datasets/enwiki.draft_quality.50k_stratified.json
+	bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | \
+	tsv2json str int str int str | bzip2 -c > \
+	datasets/enwiki.draft_quality.201508-201608.json.bz2
 
-datasets/enwiki.draft_quality.50k_stratified.with_text.json.bz2: \
-		datasets/enwiki.draft_quality.50k_stratified.json
-	cat datasets/enwiki.draft_quality.50k_stratified.json | \
+datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2: \
+		datasets/enwiki.draft_quality.201508-201608.json.bz2
+	bzcat datasets/enwiki.draft_quality.201508-201608.json.bz2 | \
 	revscoring fetch_text --host https://en.wikipedia.org \
 	  --verbose | bzip2 -c > \
-	datasets/enwiki.draft_quality.50k_stratified.with_text.json.bz2
+	datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2
 
-datasets/enwiki.draft_quality.50k_stratified.with_cache.json.bz2: \
-		datasets/enwiki.draft_quality.50k_stratified.with_text.json.bz2
-	bzcat datasets/enwiki.draft_quality.50k_stratified.with_text.json.bz2 | \
+datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2: \
+		datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2
+	bzcat datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2 | \
 	wikiclass extract_from_text \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  --verbose | bzip2 -c > \
-	datasets/enwiki.draft_quality.50k_stratified.with_cache.json.bz2
+	datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2
 
 tuning_reports/enwiki.draft_quality.md: \
-		datasets/enwiki.draft_quality.50k_stratified.with_cache.json.bz2
-	bzcat datasets/enwiki.draft_quality.50k_stratified.with_cache.json.bz2 | \
+		datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2
+	bzcat datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2 | \
 	revscoring tune \
 	  config/classifiers.params.yaml \
 	  draftquality.feature_lists.enwiki.draft_quality \
@@ -40,19 +44,22 @@ tuning_reports/enwiki.draft_quality.md: \
 	tuning_reports/enwiki.draft_quality.md
 
 models/enwiki.draft_quality.gradient_boosting.model: \
-		datasets/enwiki.draft_quality.50k_stratified.with_cache.json.bz2
-	bzcat datasets/enwiki.draft_quality.50k_stratified.with_cache.json.bz2 | \
-        revscoring cv_train \
+		datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2
+	bzcat datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2 | \
+	shuf -n 250000 | \
+	revscoring cv_train \
 	  revscoring.scorer_models.GradientBoosting \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  draft_quality \
 	  -p 'learning_rate=0.01' \
-          -p 'max_features="log2"' \
-          -p 'max_depth=7' \
-          -p 'n_estimators=700' \
+	  -p 'max_features="log2"' \
+	  -p 'max_depth=7' \
+	  -p 'n_estimators=700' \
 	  -s 'table' -s 'accuracy' -s 'roc' -s 'f1' \
+	  --workers 1 \
 	  --version 0.0.1 > \
 	models/enwiki.draft_quality.gradient_boosting.model
+
 
 ############### Big dataset ###################################################
 
