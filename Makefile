@@ -46,7 +46,7 @@ tuning_reports/enwiki.draft_quality.md: \
 models/enwiki.draft_quality.gradient_boosting.model: \
 		datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2
 	bzcat datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2 | \
-	shuf -n 250000 | \
+	shuf -n 500000 | \
 	revscoring cv_train \
 	  revscoring.scorer_models.GradientBoosting \
 	  draftquality.feature_lists.enwiki.draft_quality \
@@ -56,7 +56,9 @@ models/enwiki.draft_quality.gradient_boosting.model: \
 	  -p 'max_depth=7' \
 	  -p 'n_estimators=700' \
 	  -s 'table' -s 'accuracy' -s 'roc' -s 'f1' \
-	  --workers 1 \
+	  -s 'filter_rate_at_recall(min_recall=0.75)' \
+	  -s 'filter_rate_at_recall(min_recall=0.9)' \
+	  --workers 2 \
 	  --version 0.0.1 > \
 	models/enwiki.draft_quality.gradient_boosting.model
 
