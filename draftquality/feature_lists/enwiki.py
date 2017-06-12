@@ -1,6 +1,40 @@
 from revscoring.features import wikitext
 from revscoring.features.modifiers import max, sub
 from revscoring.languages import english
+from revscoring import Feature
+from revscoring.datasources import Datasource
+from senti_classifier import senti_classifier
+
+def get_polarity_score(revision_text):
+    """
+    Gets the positive and negative polarity of the document using SentiWordnet
+    limits the document to 20 sentences for efficiency
+    """
+    doc = revision_text.lower().split("\n")
+    return senti_classifier.polarity_scores(doc[:20])
+
+sentiment_score = Datasource("polarity_score",
+                            get_polarity_score,
+                            depends_on=[wikitext.revision.datasources.content])
+
+def get_positive_score(senti_score):
+    return senti_score[0]
+
+def get_negative_score():
+    return senti_score[1]
+
+positive_polarity = Feature(
+    "positive_polarity",
+    get_positive_score,
+    depends_on = [sentiment_score]
+)
+
+negative_polarity = Feature(
+    "positive_polarity",
+    get_negative_score,
+    depends_on = [sentiment_score]
+)
+
 
 char_based = [
     wikitext.revision.chars,
@@ -143,5 +177,11 @@ local_wiki = [
     max(wikitext.revision.content_chars, 1)
 ]
 
+sentiment_based = [
+    positive_polarity,
+    negative_polarity
+]
+
 draft_quality = (char_based + token_based + parse_based +
-                 badwords + informals + dict_words + local_wiki)
+                 badwords + informals + dict_words + local_wiki +
+                 sentiment_based)
