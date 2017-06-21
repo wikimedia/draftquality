@@ -3,38 +3,46 @@ from revscoring.features.modifiers import max, sub
 from revscoring.languages import english
 from revscoring import Feature
 from revscoring.datasources import Datasource
-from senti_classifier import senti_classifier
+from nltk.corpus import sentiwordnet as swn
 
-def get_polarity_score(revision_text):
+def get_polarity_score(non_stop_tokens):
     """
     Gets the positive and negative polarity of the document using SentiWordnet
-    limits the document to 20 sentences for efficiency
+    takes the most common sense of the word for efficiency
     """
-    doc = revision_text.lower().split("\n")
-    return senti_classifier.polarity_scores(doc[:20])
+    pos, neg = 0, 0
+    for t in non_stop_tokens:
+        synsets = list(swn.senti_synsets(t))
+        if synsets:
+            pos += synsets[0].pos_score()
+            neg += synsets[0].neg_score()
+    return [pos, neg]
 
 sentiment_score = Datasource("polarity_score",
                             get_polarity_score,
-                            depends_on=[wikitext.revision.datasources.content])
+                            depends_on=[english.stopwords.revision.datasources.non_stopwords])
 
 def get_positive_score(senti_score):
     return senti_score[0]
 
-def get_negative_score():
+def get_negative_score(senti_score):
     return senti_score[1]
 
 positive_polarity = Feature(
     "positive_polarity",
     get_positive_score,
-    depends_on = [sentiment_score]
+    depends_on = [sentiment_score],
+    returns=float
 )
 
 negative_polarity = Feature(
-    "positive_polarity",
+    "negative_polarity",
     get_negative_score,
-    depends_on = [sentiment_score]
+    depends_on = [sentiment_score],
+    returns=float
 )
 
+diff_polarity = sub(positive_polarity, negative_polarity, name="diff_polarity")
 
 char_based = [
     wikitext.revision.chars,
@@ -179,7 +187,8 @@ local_wiki = [
 
 sentiment_based = [
     positive_polarity,
-    negative_polarity
+    negative_polarity,
+    diff_polarity
 ]
 
 draft_quality = (char_based + token_based + parse_based +
