@@ -12,40 +12,36 @@
 
 datasets/enwiki.draft_quality.201508-201608.json.bz2: \
 		datasets/enwiki.draft_quality.201508-201608.tsv.bz2
-	bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | \
-	tsv2json str int str int str | bzip2 -c > \
-	datasets/enwiki.draft_quality.201508-201608.json.bz2
+	bzcat $< | \
+	tsv2json str int str int str | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2: \
 		datasets/enwiki.draft_quality.201508-201608.json.bz2
-	bzcat datasets/enwiki.draft_quality.201508-201608.json.bz2 | \
+	bzcat $< | \
 	revscoring fetch_text --host https://en.wikipedia.org \
-	  --verbose | bzip2 -c > \
-	datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2
+	  --verbose | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2: \
 		datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2
-	bzcat datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2 | \
+	bzcat $< | \
 	wikiclass extract_from_text \
 	  draftquality.feature_lists.enwiki.draft_quality \
-	  --verbose | bzip2 -c > \
-	datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2
+	  --verbose | bzip2 -c > $@
 
 tuning_reports/enwiki.draft_quality.md: \
 		datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2
-	bzcat datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2 | \
+	bzcat $< | \
 	revscoring tune \
 	  config/classifiers.params.yaml \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  draft_quality \
 	  --cv-timeout=60 \
 	  --scoring=accuracy \
-	  --debug > \
-	tuning_reports/enwiki.draft_quality.md
+	  --debug > $@
 
 models/enwiki.draft_quality.gradient_boosting.model: \
 		datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2
-	bzcat datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2 | \
+	bzcat $< | \
 	shuf -n 500000 | \
 	revscoring cv_train \
 	  revscoring.scorer_models.GradientBoosting \
@@ -59,8 +55,7 @@ models/enwiki.draft_quality.gradient_boosting.model: \
 	  -s 'filter_rate_at_recall(min_recall=0.75)' \
 	  -s 'filter_rate_at_recall(min_recall=0.9)' \
 	  --workers 2 \
-	  --version 0.0.1 > \
-	models/enwiki.draft_quality.gradient_boosting.model
+	  --version 0.0.1 > $@
 
 
 ############### Big dataset ###################################################
@@ -98,92 +93,79 @@ datasets/enwiki.draft_quality.201508-201608.tsv.bz2: \
 	  bzcat datasets/enwiki.draft_quality.201605.tsv.bz2 | tail -n+2; \
 	  bzcat datasets/enwiki.draft_quality.201606.tsv.bz2 | tail -n+2; \
 	  bzcat datasets/enwiki.draft_quality.201607.tsv.bz2 | tail -n+2 \
-	) | bzip2 -c > \
-	datasets/enwiki.draft_quality.201508-201608.tsv.bz2
+	) | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201508.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201508", @end="201509";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201508.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201509.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201509", @end="201510";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201509.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201510.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201510", @end="201511";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201510.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201511.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201511", @end="201512";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201511.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201512.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201512", @end="201601";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201512.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201601.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201601", @end="201602";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201601.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201602.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201602", @end="201603";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201602.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201603.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201603", @end="201604";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201603.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201604.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201604", @end="201605";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201604.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201605.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201605", @end="201606";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201605.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201606.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201606", @end="201607";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201606.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201607.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201607", @end="201608";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201607.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.75_not_OK_sample.tsv: \
 		datasets/enwiki.draft_quality.201508-201608.tsv.bz2
@@ -192,7 +174,7 @@ datasets/enwiki.draft_quality.75_not_OK_sample.tsv: \
 	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'spam$$' | shuf -n 25; \
 	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'attack$$' | shuf -n 25; \
 	  bzcat datasets/enwiki.draft_quality.201508-201608.tsv.bz2 | grep -P 'vandalism$$' | shuf -n 25 \
-	) > datasets/enwiki.draft_quality.75_not_OK_sample.tsv	
+	) > $@
 
 datasets/enwiki.draft_quality.201608-201701.tsv.bz2: \
 		datasets/enwiki.draft_quality.201608.tsv.bz2 \
@@ -206,61 +188,52 @@ datasets/enwiki.draft_quality.201608-201701.tsv.bz2: \
 	  bzcat datasets/enwiki.draft_quality.201610.tsv.bz2 | tail -n+2; \
 	  bzcat datasets/enwiki.draft_quality.201611.tsv.bz2 | tail -n+2; \
 	  bzcat datasets/enwiki.draft_quality.201612.tsv.bz2 | tail -n+2 \
-	) | bzip2 -c > \
-	datasets/enwiki.draft_quality.201608-201701.tsv.bz2
+	) | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201608.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201608", @end="201609";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201608.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201609.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201609", @end="201610";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201609.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201610.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201610", @end="201611";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201610.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201611.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201611", @end="201612";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201611.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201612.tsv.bz2: \
 		sql/draft_quality.variables.sql
 	echo 'SET @start="201612", @end="201701";' | \
-	cat - sql/draft_quality.variables.sql | \
-	$(mysqlc) enwiki | bzip2 -c > \
-	datasets/enwiki.draft_quality.201612.tsv.bz2
+	cat - $< | \
+	$(mysqlc) enwiki | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201608-201701.json: \
 		datasets/enwiki.draft_quality.201608-201701.tsv.bz2
-	bzcat datasets/enwiki.draft_quality.201608-201701.tsv.bz2 | \
-	tsv2json str int str int str > \
-	datasets/enwiki.draft_quality.201608-201701.json
+	bzcat $< | \
+	tsv2json str int str int str > $@
 
 datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2: \
 		datasets/enwiki.draft_quality.201608-201701.json
-	cat datasets/enwiki.draft_quality.201608-201701.json | \
+	cat $< | \
 	revscoring fetch_text --host https://en.wikipedia.org \
-	  --verbose | bzip2 -c > \
-	datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2
+	  --verbose | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2: \
 		datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2
-	bzcat datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2 | \
+	bzcat $< | \
 	wikiclass extract_from_text \
 	  draftquality.feature_lists.enwiki.draft_quality \
-	  --verbose | bzip2 -c > \
-	datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2
+	  --verbose | bzip2 -c > $@
