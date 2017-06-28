@@ -1,3 +1,7 @@
+.PHONY: all
+
+all: models/enwiki.draft_quality.gradient_boosting.model
+
 #datasets/enwiki.draft_quality.50k_stratified.json: \
 #	       datasets/enwiki.draft_quality.201508-201608.tsv.bz2
 #       ( \
