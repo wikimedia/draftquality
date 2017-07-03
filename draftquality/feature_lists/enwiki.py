@@ -1,6 +1,48 @@
 from revscoring.features import wikitext
 from revscoring.features.modifiers import max, sub
 from revscoring.languages import english
+from revscoring import Feature
+from revscoring.datasources import Datasource
+from nltk.corpus import sentiwordnet as swn
+
+def get_polarity_score(non_stop_tokens):
+    """
+    Gets the positive and negative polarity of the document using SentiWordnet
+    takes the most common sense of the word for efficiency
+    """
+    pos, neg = 0, 0
+    for t in non_stop_tokens:
+        synsets = list(swn.senti_synsets(t))
+        if synsets:
+            pos += synsets[0].pos_score()
+            neg += synsets[0].neg_score()
+    return [pos, neg]
+
+sentiment_score = Datasource("polarity_score",
+                            get_polarity_score,
+                            depends_on=[english.stopwords.revision.datasources.non_stopwords])
+
+def get_positive_score(senti_score):
+    return senti_score[0]
+
+def get_negative_score(senti_score):
+    return senti_score[1]
+
+positive_polarity = Feature(
+    "positive_polarity",
+    get_positive_score,
+    depends_on = [sentiment_score],
+    returns=float
+)
+
+negative_polarity = Feature(
+    "negative_polarity",
+    get_negative_score,
+    depends_on = [sentiment_score],
+    returns=float
+)
+
+diff_polarity = sub(positive_polarity, negative_polarity, name="diff_polarity")
 
 char_based = [
     wikitext.revision.chars,
@@ -143,5 +185,12 @@ local_wiki = [
     max(wikitext.revision.content_chars, 1)
 ]
 
+sentiment_based = [
+    positive_polarity,
+    negative_polarity,
+    diff_polarity
+]
+
 draft_quality = (char_based + token_based + parse_based +
-                 badwords + informals + dict_words + local_wiki)
+                 badwords + informals + dict_words + local_wiki +
+                 sentiment_based)
