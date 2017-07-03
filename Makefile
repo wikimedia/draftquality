@@ -1,3 +1,6 @@
+# Remove target files after command failure.
+.DELETE_ON_ERROR:
+
 .PHONY: all
 
 all: models/enwiki.draft_quality.gradient_boosting.model
