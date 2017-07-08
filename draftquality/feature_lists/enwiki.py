@@ -10,7 +10,7 @@ def get_polarity_score(non_stop_tokens):
     Gets the positive and negative polarity of the document using SentiWordnet
     takes the most common sense of the word for efficiency
     """
-    pos, neg = 0, 0
+    pos, neg = 0.0, 0.0
     for t in non_stop_tokens:
         synsets = list(swn.senti_synsets(t))
         if synsets:
@@ -192,5 +192,8 @@ sentiment_based = [
 ]
 
 draft_quality = (char_based + token_based + parse_based +
+                 badwords + informals + dict_words + local_wiki)
+
+draft_quality_with_sentiment = (char_based + token_based + parse_based +
                  badwords + informals + dict_words + local_wiki +
                  sentiment_based)
