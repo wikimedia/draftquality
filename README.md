@@ -7,5 +7,11 @@ draft (new article creation) quality prediction models.
 * **Repository:** https://github.com/wiki-ai/draftquality
 * **License:** MIT
 
+## Requirements
+
+Optionally requires the following based on usage:
+
+* NLTK SentiWordnet - ``python -m nltk.downloader sentiwordnet``
+
 ## Author
 * Aaron Halfaker -- https://github.com/halfak
