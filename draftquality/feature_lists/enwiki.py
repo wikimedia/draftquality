@@ -18,7 +18,7 @@ def get_polarity_score(non_stop_tokens):
             neg += synsets[0].neg_score()
     return [pos, neg]
 
-sentiment_score = Datasource("polarity_score",
+sentiment_score = Datasource("english.sentiment.revision.polarity_score",
                             get_polarity_score,
                             depends_on=[english.stopwords.revision.datasources.non_stopwords])
 
@@ -29,20 +29,21 @@ def get_negative_score(senti_score):
     return senti_score[1]
 
 positive_polarity = Feature(
-    "positive_polarity",
+    "english.sentiment.revision.positive_polarity",
     get_positive_score,
     depends_on = [sentiment_score],
     returns=float
 )
 
 negative_polarity = Feature(
-    "negative_polarity",
+    "english.sentiment.revision.negative_polarity",
     get_negative_score,
     depends_on = [sentiment_score],
     returns=float
 )
 
-diff_polarity = sub(positive_polarity, negative_polarity, name="diff_polarity")
+diff_polarity = sub(positive_polarity,
+                        negative_polarity, name="english.sentiment.revision.diff_polarity")
 
 char_based = [
     wikitext.revision.chars,
@@ -192,8 +193,5 @@ sentiment_based = [
 ]
 
 draft_quality = (char_based + token_based + parse_based +
-                 badwords + informals + dict_words + local_wiki)
-
-draft_quality_with_sentiment = (char_based + token_based + parse_based +
                  badwords + informals + dict_words + local_wiki +
                  sentiment_based)
