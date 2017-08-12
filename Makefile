@@ -1,9 +1,10 @@
 # Remove target files after command failure.
 .DELETE_ON_ERROR:
 
-.PHONY: all
+models: \
+	enwiki_models
 
-all: models/enwiki.draft_quality.gradient_boosting.model
+draft_quality_major_minor = 0.1
 
 #datasets/enwiki.draft_quality.50k_stratified.json: \
 #	       datasets/enwiki.draft_quality.201508-201608.tsv.bz2
@@ -22,46 +23,60 @@ datasets/enwiki.draft_quality.201508-201608.json.bz2: \
 	bzcat $< | \
 	tsv2json str int str int str | bzip2 -c > $@
 
-datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2: \
+datasets/enwiki.draft_quality.balanced_50k.json.bz2: \
 		datasets/enwiki.draft_quality.201508-201608.json.bz2
+	(bzcat $< | grep '"draft_quality": "OK"' | shuf -n 26261; \
+	 bzcat $< | grep -v '"draft_quality": "OK"') | \
+	shuf | bzip2 -c > $@
+
+datasets/enwiki.draft_quality.balanced_50k.with_text.json.bz2: \
+		datasets/enwiki.draft_quality.balanced_50k.json.bz2
 	bzcat $< | \
-	revscoring fetch_text --host https://en.wikipedia.org \
+	revscoring fetch_text --host https://en.wikipedia.org --threads 4 \
 	  --verbose | bzip2 -c > $@
 
-datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2: \
-		datasets/enwiki.draft_quality.201508-201608.with_text.json.bz2
+datasets/enwiki.draft_quality.balanced_50k.with_cache.json.bz2: \
+		datasets/enwiki.draft_quality.balanced_50k.with_text.json.bz2
 	bzcat $< | \
 	wikiclass extract_from_text \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  --verbose | bzip2 -c > $@
 
 tuning_reports/enwiki.draft_quality.md: \
-		datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2
+		datasets/enwiki.draft_quality.balanced_50k.with_cache.json.bz2
 	bzcat $< | \
 	revscoring tune \
 	  config/classifiers.params.yaml \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  draft_quality \
+		roc_auc.macro \
+		--pop-rate '"OK"=0.9710595482772492' \
+		--pop-rate '"spam"=0.019504857204256047' \
+		--pop-rate '"vandalism"=0.00716651146388367' \
+		--pop-rate '"attack"=0.0022690830546111757' \
+		--scale --center \
 	  --cv-timeout=60 \
-	  --scoring=accuracy \
 	  --debug > $@
 
 models/enwiki.draft_quality.gradient_boosting.model: \
-		datasets/enwiki.draft_quality.201508-201608.with_cache.json.bz2
+		datasets/enwiki.draft_quality.balanced_50k.with_cache.json.bz2
 	bzcat $< | \
 	revscoring cv_train \
-	  revscoring.scorer_models.GradientBoosting \
+	  revscoring.scoring.models.GradientBoosting \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  draft_quality \
 	  -p 'learning_rate=0.01' \
 	  -p 'max_features="log2"' \
 	  -p 'max_depth=7' \
 	  -p 'n_estimators=700' \
-	  -s 'table' -s 'accuracy' -s 'roc' -s 'f1' \
-	  -s 'filter_rate_at_recall(min_recall=0.75)' \
-	  -s 'filter_rate_at_recall(min_recall=0.9)' \
-	  --version 0.0.2 > $@
+		--pop-rate '"OK"=0.9710595482772492' \
+		--pop-rate '"spam"=0.019504857204256047' \
+		--pop-rate '"vandalism"=0.00716651146388367' \
+		--pop-rate '"attack"=0.0022690830546111757' \
+	  --version $(draft_quality_major_minor).0 > $@
 
+enwiki_models: \
+	models/enwiki.draft_quality.gradient_boosting.model
 
 ############### Big dataset ###################################################
 
