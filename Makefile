@@ -23,27 +23,27 @@ datasets/enwiki.draft_quality.201508-201608.json.bz2: \
 	bzcat $< | \
 	tsv2json str int str int str | bzip2 -c > $@
 
-datasets/enwiki.draft_quality.balanced_50k.json.bz2: \
+datasets/enwiki.draft_quality.balanced_200k.json.bz2: \
 		datasets/enwiki.draft_quality.201508-201608.json.bz2
-	(bzcat $< | grep '"draft_quality": "OK"' | shuf -n 26261; \
+	(bzcat $< | grep '"draft_quality": "OK"' | shuf -n 175000; \
 	 bzcat $< | grep -v '"draft_quality": "OK"') | \
 	shuf | bzip2 -c > $@
 
-datasets/enwiki.draft_quality.balanced_50k.with_text.json.bz2: \
-		datasets/enwiki.draft_quality.balanced_50k.json.bz2
+datasets/enwiki.draft_quality.balanced_200k.with_text.json.bz2: \
+		datasets/enwiki.draft_quality.balanced_200k.json.bz2
 	bzcat $< | \
 	revscoring fetch_text --host https://en.wikipedia.org --threads 4 \
 	  --verbose | bzip2 -c > $@
 
-datasets/enwiki.draft_quality.balanced_50k.with_cache.json.bz2: \
-		datasets/enwiki.draft_quality.balanced_50k.with_text.json.bz2
+datasets/enwiki.draft_quality.balanced_200k.with_cache.json.bz2: \
+		datasets/enwiki.draft_quality.balanced_200k.with_text.json.bz2
 	bzcat $< | \
 	wikiclass extract_from_text \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  --verbose | bzip2 -c > $@
 
 tuning_reports/enwiki.draft_quality.md: \
-		datasets/enwiki.draft_quality.balanced_50k.with_cache.json.bz2
+		datasets/enwiki.draft_quality.balanced_200k.with_cache.json.bz2
 	bzcat $< | \
 	revscoring tune \
 	  config/classifiers.params.yaml \
@@ -58,8 +58,8 @@ tuning_reports/enwiki.draft_quality.md: \
 	  --cv-timeout=60 \
 	  --debug > $@
 
-models/enwiki.draft_quality.gradient_boosting.model: \
-		datasets/enwiki.draft_quality.balanced_50k.with_cache.json.bz2
+models/enwiki.draft_quality.gradient_boosting.model.bz2: \
+		datasets/enwiki.draft_quality.balanced_200k.with_cache.json.bz2
 	bzcat $< | \
 	revscoring cv_train \
 	  revscoring.scoring.models.GradientBoosting \
@@ -73,7 +73,7 @@ models/enwiki.draft_quality.gradient_boosting.model: \
 		--pop-rate '"spam"=0.019504857204256047' \
 		--pop-rate '"vandalism"=0.00716651146388367' \
 		--pop-rate '"attack"=0.0022690830546111757' \
-	  --version $(draft_quality_major_minor).0 > $@
+	  --version $(draft_quality_major_minor).0 | bzip2 -c > $@
 
 enwiki_models: \
 	models/enwiki.draft_quality.gradient_boosting.model
