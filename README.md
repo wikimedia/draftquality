@@ -12,6 +12,7 @@ draft (new article creation) quality prediction models.
 Optionally requires the following based on usage:
 
 * NLTK SentiWordnet - ``python -m nltk.downloader sentiwordnet``
+* NLTK Wordnet - ``python -m nltk.downloader wordnet``
 
 ## Author
 * Aaron Halfaker -- https://github.com/halfak
