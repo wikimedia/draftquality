@@ -55,7 +55,8 @@ def run(observations, features, label_name, verbose):
             if verbose:
                 sys.stderr.write(".")
                 sys.stderr.flush()
-        except:
+        except:  # noqa: E722
+            # Naughty indiscriminate exception consumption.
             sys.stderr.write(traceback.format_exc())
 
     if verbose:
@@ -63,4 +64,4 @@ def run(observations, features, label_name, verbose):
 
 
 if __name__ == "__main__":
-	main(sys.argv[1:])
+    main(sys.argv[1:])
