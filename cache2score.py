@@ -51,7 +51,8 @@ def run(observations, model, verbose):
             if verbose:
                 sys.stderr.write(".")
                 sys.stderr.flush()
-        except:
+        except:  # noqa: E722
+            # We're naughty to eat all exceptions.
             sys.stderr.write(traceback.format_exc())
 
     if verbose:
