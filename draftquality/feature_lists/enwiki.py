@@ -5,6 +5,7 @@ from revscoring import Feature
 from revscoring.datasources import Datasource
 from nltk.corpus import sentiwordnet as swn
 
+
 def get_polarity_score(non_stop_tokens):
     """
     Gets the positive and negative polarity of the document using SentiWordnet
@@ -18,32 +19,37 @@ def get_polarity_score(non_stop_tokens):
             neg += synsets[0].neg_score()
     return [pos, neg]
 
+
 sentiment_score = Datasource("english.sentiment.revision.polarity_score",
-                            get_polarity_score,
-                            depends_on=[english.stopwords.revision.datasources.non_stopwords])
+                             get_polarity_score,
+                             depends_on=[english.stopwords.revision.datasources.non_stopwords])  # noqa: E501
+
 
 def get_positive_score(senti_score):
     return senti_score[0]
 
+
 def get_negative_score(senti_score):
     return senti_score[1]
+
 
 positive_polarity = Feature(
     "english.sentiment.revision.positive_polarity",
     get_positive_score,
-    depends_on = [sentiment_score],
+    depends_on=[sentiment_score],
     returns=float
 )
 
 negative_polarity = Feature(
     "english.sentiment.revision.negative_polarity",
     get_negative_score,
-    depends_on = [sentiment_score],
+    depends_on=[sentiment_score],
     returns=float
 )
 
 diff_polarity = sub(positive_polarity,
-                        negative_polarity, name="english.sentiment.revision.diff_polarity")
+                    negative_polarity,
+                    name="english.sentiment.revision.diff_polarity")
 
 char_based = [
     wikitext.revision.chars,
