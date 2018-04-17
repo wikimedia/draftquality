@@ -76,7 +76,7 @@ models/enwiki.draft_quality.gradient_boosting.model.bz2: \
 	  --version $(draft_quality_major_minor).0 | bzip2 -c > $@
 
 enwiki_models: \
-	models/enwiki.draft_quality.gradient_boosting.model
+	models/enwiki.draft_quality.gradient_boosting.model.bz2
 
 ############### Big dataset ###################################################
 
