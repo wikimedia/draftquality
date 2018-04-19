@@ -38,7 +38,7 @@ datasets/enwiki.draft_quality.balanced_200k.with_text.json.bz2: \
 datasets/enwiki.draft_quality.balanced_200k.with_cache.json.bz2: \
 		datasets/enwiki.draft_quality.balanced_200k.with_text.json.bz2
 	bzcat $< | \
-	wikiclass extract_from_text \
+	articlequality extract_from_text \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  --verbose | bzip2 -c > $@
 
@@ -254,6 +254,6 @@ datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2: \
 datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2: \
 		datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2
 	bzcat $< | \
-	wikiclass extract_from_text \
+	articlequality extract_from_text \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  --verbose | bzip2 -c > $@
