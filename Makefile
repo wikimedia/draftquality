@@ -38,7 +38,7 @@ datasets/enwiki.draft_quality.balanced_200k.with_text.json.bz2: \
 datasets/enwiki.draft_quality.balanced_200k.with_cache.json.bz2: \
 		datasets/enwiki.draft_quality.balanced_200k.with_text.json.bz2
 	bzcat $< | \
-	wikiclass extract_from_text \
+	articlequality extract_from_text \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  --verbose | bzip2 -c > $@
 
@@ -76,7 +76,7 @@ models/enwiki.draft_quality.gradient_boosting.model.bz2: \
 	  --version $(draft_quality_major_minor).0 | bzip2 -c > $@
 
 enwiki_models: \
-	models/enwiki.draft_quality.gradient_boosting.model
+	models/enwiki.draft_quality.gradient_boosting.model.bz2
 
 ############### Big dataset ###################################################
 
@@ -254,6 +254,6 @@ datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2: \
 datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2: \
 		datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2
 	bzcat $< | \
-	wikiclass extract_from_text \
+	articlequality extract_from_text \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  --verbose | bzip2 -c > $@
