@@ -4,7 +4,7 @@
 models: \
 	enwiki_models
 
-draft_quality_major_minor = 0.1
+draft_quality_major_minor = 0.2
 
 #datasets/enwiki.draft_quality.50k_stratified.json: \
 #	       datasets/enwiki.draft_quality.201508-201608.tsv.bz2
@@ -69,11 +69,13 @@ models/enwiki.draft_quality.gradient_boosting.model.bz2: \
 	  -p 'max_features="log2"' \
 	  -p 'max_depth=7' \
 	  -p 'n_estimators=700' \
-		--pop-rate '"OK"=0.9710595482772492' \
-		--pop-rate '"spam"=0.019504857204256047' \
-		--pop-rate '"vandalism"=0.00716651146388367' \
-		--pop-rate '"attack"=0.0022690830546111757' \
+	  --pop-rate '"OK"=0.9710595482772492' \
+	  --pop-rate '"spam"=0.019504857204256047' \
+	  --pop-rate '"vandalism"=0.00716651146388367' \
+	  --pop-rate '"attack"=0.0022690830546111757' \
 	  --version $(draft_quality_major_minor).0 | bzip2 -c > $@
+	
+	revscoring model_info $@ > model_info/enwiki.draft_quality.md
 
 enwiki_models: \
 	models/enwiki.draft_quality.gradient_boosting.model.bz2
@@ -87,33 +89,33 @@ mysql_args = -h $(host) -u $(user)
 mysqlc = mysql $(mysql_args)
 mysqlc_import = mysqlimport $(mysql_args) --local
 
-datasets/enwiki.draft_quality.201508-201608.tsv.bz2: \
-		datasets/enwiki.draft_quality.201508.tsv.bz2 \
-		datasets/enwiki.draft_quality.201509.tsv.bz2 \
-		datasets/enwiki.draft_quality.201510.tsv.bz2 \
-		datasets/enwiki.draft_quality.201511.tsv.bz2 \
-		datasets/enwiki.draft_quality.201512.tsv.bz2 \
-		datasets/enwiki.draft_quality.201601.tsv.bz2 \
-		datasets/enwiki.draft_quality.201602.tsv.bz2 \
-		datasets/enwiki.draft_quality.201603.tsv.bz2 \
-		datasets/enwiki.draft_quality.201604.tsv.bz2 \
-		datasets/enwiki.draft_quality.201605.tsv.bz2 \
-		datasets/enwiki.draft_quality.201606.tsv.bz2 \
-		datasets/enwiki.draft_quality.201607.tsv.bz2
-	( \
-	  bzcat datasets/enwiki.draft_quality.201508.tsv.bz2; \
-	  bzcat datasets/enwiki.draft_quality.201509.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201510.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201511.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201512.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201601.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201602.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201603.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201604.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201605.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201606.tsv.bz2 | tail -n+2; \
-	  bzcat datasets/enwiki.draft_quality.201607.tsv.bz2 | tail -n+2 \
-	) | bzip2 -c > $@
+# datasets/enwiki.draft_quality.201508-201608.tsv.bz2: \
+#		datasets/enwiki.draft_quality.201508.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201509.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201510.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201511.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201512.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201601.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201602.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201603.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201604.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201605.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201606.tsv.bz2 \
+#		datasets/enwiki.draft_quality.201607.tsv.bz2
+#	( \
+#	  bzcat datasets/enwiki.draft_quality.201508.tsv.bz2; \
+#	  bzcat datasets/enwiki.draft_quality.201509.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201510.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201511.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201512.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201601.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201602.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201603.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201604.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201605.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201606.tsv.bz2 | tail -n+2; \
+#	  bzcat datasets/enwiki.draft_quality.201607.tsv.bz2 | tail -n+2 \
+#	) | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201508.tsv.bz2: \
 		sql/draft_quality.variables.sql
