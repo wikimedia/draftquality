@@ -89,6 +89,10 @@ mysql_args = -h $(host) -u $(user)
 mysqlc = mysql $(mysql_args)
 mysqlc_import = mysqlimport $(mysql_args) --local
 
+# This is commented out so that we don't accidentally re-do
+# this very expensive processing work.  Uncomment if rebuilding
+# the dataset becomes necessary.
+#
 # datasets/enwiki.draft_quality.201508-201608.tsv.bz2: \
 #		datasets/enwiki.draft_quality.201508.tsv.bz2 \
 #		datasets/enwiki.draft_quality.201509.tsv.bz2 \
