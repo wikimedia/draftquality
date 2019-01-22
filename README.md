@@ -13,6 +13,7 @@ Optionally requires the following based on usage:
 
 * NLTK SentiWordnet - ``python -m nltk.downloader sentiwordnet``
 * NLTK Wordnet - ``python -m nltk.downloader wordnet``
+* NLTK Stopwords Corpus - ``python -m nltk.downloader stopwords``
 
 ## Author
 * Aaron Halfaker -- https://github.com/halfak

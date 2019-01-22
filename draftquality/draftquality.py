@@ -2,8 +2,6 @@
 This script provides access to a set of utilities for extracting features and
 building draft quality predictors.
 
-* fetch_text -- Fetches the wikitext content of pages -- deleted or not
-
 Usage:
     draftquality (-h | --help)
     draftquality <utility> [-h | --help]
