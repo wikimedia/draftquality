@@ -55,7 +55,7 @@ tuning_reports/enwiki.draft_quality.md: \
 		--pop-rate '"vandalism"=0.00716651146388367' \
 		--pop-rate '"attack"=0.0022690830546111757' \
 		--scale --center \
-	  --cv-timeout=60 \
+	  --cv-timeout=90 \
 	  --debug > $@
 
 models/enwiki.draft_quality.gradient_boosting.model.bz2: \
@@ -65,10 +65,10 @@ models/enwiki.draft_quality.gradient_boosting.model.bz2: \
 	  revscoring.scoring.models.GradientBoosting \
 	  draftquality.feature_lists.enwiki.draft_quality \
 	  draft_quality \
-	  -p 'learning_rate=0.01' \
+	  -p 'n_estimators=300' \
+	  -p 'learning_rate=0.1' \
+	  -p 'max_depth=5' \
 	  -p 'max_features="log2"' \
-	  -p 'max_depth=7' \
-	  -p 'n_estimators=700' \
 	  --pop-rate '"OK"=0.9710595482772492' \
 	  --pop-rate '"spam"=0.019504857204256047' \
 	  --pop-rate '"vandalism"=0.00716651146388367' \
