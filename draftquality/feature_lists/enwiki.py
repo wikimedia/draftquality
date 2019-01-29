@@ -130,6 +130,11 @@ informals = [
     english.informals.revision.matches / max(wikitext.revision.words, 1)
 ]
 
+words_to_watch = [
+    english.words_to_watch.revision.matches,
+    english.words_to_watch.revision.matches / max(wikitext.revision.words, 1)
+]
+
 dict_words = [
     english.dictionary.revision.dict_words,
     english.dictionary.revision.non_dict_words,
@@ -199,5 +204,5 @@ sentiment_based = [
 ]
 
 draft_quality = (char_based + token_based + parse_based +
-                 badwords + informals + dict_words + local_wiki +
-                 sentiment_based)
+                 badwords + informals + words_to_watch + dict_words +
+                 local_wiki + sentiment_based)
