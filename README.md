@@ -1,4 +1,4 @@
-# Draft quality
+# draftquality
 
 This library provides a set of utilities for building and maintaining
 draft (new article creation) quality prediction models.
