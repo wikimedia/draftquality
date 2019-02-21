@@ -1,7 +1,7 @@
 # draftquality
 
 This library provides a set of utilities for building and maintaining
-draft (new article creation) quality prediction models.
+draft (new article creation) quality prediction models for Wikipedia.
 
 * **Installation:** ``pip install draftquality``
 * **Repository:** https://github.com/wikimedia/draftquality
