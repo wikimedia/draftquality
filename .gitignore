@@ -42,6 +42,6 @@ nosetests.xml
 coverage.xml
 
 # Sphinx documentation
-doc/_build/
-doc/.buildfile
+docs/_build/
+docs/.buildfile
 *.toctree
