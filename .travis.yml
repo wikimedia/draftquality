@@ -10,12 +10,15 @@ addons:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+  - pip install -r docs/requirements.txt
   - python setup.py install
   - pip install twine
   - pip install flake8
 
 script:
   - flake8 . --ignore=E722
+  - sphinx-build -b html docs dist/docs
+  - sphinx-build -b linkcheck docs dist/docs
 
 after_success:
   - coverage report
