@@ -24,11 +24,6 @@ setup(
     url=__url__,  # noqa
     license=__license__, # noqa
     packages=find_packages(),
-    entry_points={
-        'console_scripts': [
-            'editquality=draftquality.draftquality:main'
-        ],
-    },
     long_description=read('README.md'),
     install_requires=requirements('requirements.txt'),
     classifiers=[
