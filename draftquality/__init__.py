@@ -5,10 +5,7 @@ prediction models for Wikipedia.
 
 In this package, you'll find the
 :mod:`feature lists <draftquality.feature_lists>` used to train models
-for the supported wiki.  There's a set of
-:mod:`command-line utilities <draftquality.utilities>`
-that are used to perform data pipeline operations specific to training and
-testing a quality model.
+for the supported wiki.
 
 See the :ref:`API Reference <api_reference>` for low level details.
 """
