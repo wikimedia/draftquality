@@ -73,7 +73,7 @@ models/enwiki.draft_quality.gradient_boosting.model.bz2: \
 	  --pop-rate '"spam"=0.019504857204256047' \
 	  --pop-rate '"vandalism"=0.00716651146388367' \
 	  --pop-rate '"attack"=0.0022690830546111757' \
-	  --version $(draft_quality_major_minor).0 | bzip2 -c > $@
+	  --version $(draft_quality_major_minor).1 | bzip2 -c > $@
 	
 	revscoring model_info $@ > model_info/enwiki.draft_quality.md
 

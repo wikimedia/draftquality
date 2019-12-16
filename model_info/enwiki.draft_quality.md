@@ -1,12 +1,12 @@
 Model Information:
 	 - type: GradientBoosting
-	 - version: 0.2.0
-	 - params: {'validation_fraction': 0.1, 'labels': ['OK', 'spam', 'vandalism', 'attack'], 'init': None, 'n_iter_no_change': None, 'min_samples_leaf': 1, 'warm_start': False, 'presort': 'auto', 'criterion': 'friedman_mse', 'verbose': 0, 'max_leaf_nodes': None, 'subsample': 1.0, 'learning_rate': 0.1, 'tol': 0.0001, 'multilabel': False, 'min_impurity_split': None, 'max_features': 'log2', 'label_weights': None, 'loss': 'deviance', 'min_impurity_decrease': 0.0, 'n_estimators': 300, 'scale': False, 'random_state': None, 'population_rates': None, 'max_depth': 5, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'center': False}
+	 - version: 0.2.1
+	 - params: {'min_samples_leaf': 1, 'loss': 'deviance', 'max_features': 'log2', 'min_weight_fraction_leaf': 0.0, 'min_impurity_decrease': 0.0, 'presort': 'auto', 'warm_start': False, 'population_rates': None, 'min_impurity_split': None, 'max_depth': 5, 'verbose': 0, 'labels': ['OK', 'spam', 'vandalism', 'attack'], 'tol': 0.0001, 'learning_rate': 0.1, 'validation_fraction': 0.1, 'init': None, 'multilabel': False, 'label_weights': None, 'subsample': 1.0, 'max_leaf_nodes': None, 'random_state': None, 'n_iter_no_change': None, 'center': False, 'min_samples_split': 2, 'criterion': 'friedman_mse', 'scale': False, 'n_estimators': 300}
 	Environment:
-	 - revscoring_version: '2.5.1'
-	 - platform: 'Linux-4.9.0-9-amd64-x86_64-with-debian-9.9'
+	 - revscoring_version: '2.6.2'
+	 - platform: 'Linux-4.9.0-11-amd64-x86_64-with-debian-9.11'
 	 - machine: 'x86_64'
-	 - version: '#1 SMP Debian 4.9.168-1+deb9u2 (2019-05-13)'
+	 - version: '#1 SMP Debian 4.9.189-3+deb9u1 (2019-09-20)'
 	 - system: 'Linux'
 	 - processor: ''
 	 - python_build: ('default', 'Sep 27 2018 17:25:39')
@@ -15,69 +15,69 @@ Model Information:
 	 - python_implementation: 'CPython'
 	 - python_revision: ''
 	 - python_version: '3.5.3'
-	 - release: '4.9.0-9-amd64'
+	 - release: '4.9.0-11-amd64'
 	
 	Statistics:
 	counts (n=201261):
 		label             n          ~OK    ~spam    ~vandalism    ~attack
 		-----------  ------  ---  ------  -------  ------------  ---------
-		'OK'         175000  -->  171443     2655           845         57
-		'spam'        17699  -->    2761    14033           864         41
-		'vandalism'    6503  -->    1638     1356          3167        342
-		'attack'       2059  -->     273      355          1109        322
+		'OK'         175000  -->  171487     2634           816         63
+		'spam'        17699  -->    2770    14065           820         44
+		'vandalism'    6503  -->    1627     1341          3188        347
+		'attack'       2059  -->     263      357          1084        355
 	rates:
 		              'OK'    'spam'    'vandalism'    'attack'
 		----------  ------  --------  -------------  ----------
 		sample       0.87      0.088          0.032       0.01
 		population   0.971     0.02           0.007       0.002
 	match_rate (micro=0.93, macro=0.254):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.956     0.003        0.018   0.039
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.957   0.039        0.017     0.003
 	filter_rate (micro=0.07, macro=0.746):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.044     0.997        0.982   0.961
-	recall (micro=0.971, macro=0.604):
-		  OK    attack    vandalism    spam
-		----  --------  -----------  ------
-		0.98     0.156        0.487   0.793
-	!recall (micro=0.827, macro=0.945):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.822     0.998        0.986   0.976
-	precision (micro=0.975, macro=0.432):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.995     0.139        0.195   0.399
-	!precision (micro=0.56, macro=0.884):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.547     0.998        0.996   0.996
-	f1 (micro=0.971, macro=0.486):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.987     0.147        0.279   0.531
-	!f1 (micro=0.666, macro=0.908):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.657     0.998        0.991   0.986
-	accuracy (micro=0.975, macro=0.981):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.975     0.996        0.982   0.973
-	fpr (micro=0.173, macro=0.055):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.178     0.002        0.014   0.024
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.043   0.961        0.983     0.997
+	recall (micro=0.971, macro=0.609):
+		  OK    spam    vandalism    attack
+		----  ------  -----------  --------
+		0.98   0.795         0.49     0.172
+	!recall (micro=0.827, macro=0.946):
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.823   0.976        0.986     0.998
+	precision (micro=0.975, macro=0.436):
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.995   0.401        0.202     0.147
+	!precision (micro=0.563, macro=0.885):
+		  OK    spam    vandalism    attack
+		----  ------  -----------  --------
+		0.55   0.996        0.996     0.998
+	f1 (micro=0.971, macro=0.491):
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.987   0.533        0.286     0.159
+	!f1 (micro=0.669, macro=0.909):
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.659   0.986        0.991     0.998
+	accuracy (micro=0.975, macro=0.982):
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.975   0.973        0.982     0.996
+	fpr (micro=0.173, macro=0.054):
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.177   0.024        0.014     0.002
 	roc_auc (micro=0.979, macro=0.971):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.979     0.968        0.956   0.979
-	pr_auc (micro=0.984, macro=0.479):
-		   OK    attack    vandalism    spam
-		-----  --------  -----------  ------
-		0.999     0.094        0.208   0.613
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.979   0.979        0.956     0.968
+	pr_auc (micro=0.984, macro=0.484):
+		   OK    spam    vandalism    attack
+		-----  ------  -----------  --------
+		0.999   0.616        0.217     0.101
 	
-	 - score_schema: {'properties': {'prediction': {'description': 'The most likely label predicted by the estimator', 'type': 'string'}, 'probability': {'properties': {'OK': {'type': 'number'}, 'attack': {'type': 'number'}, 'vandalism': {'type': 'number'}, 'spam': {'type': 'number'}}, 'description': 'A mapping of probabilities onto each of the potential output labels', 'type': 'object'}}, 'type': 'object', 'title': 'Scikit learn-based classifier score with probability'}
+	 - score_schema: {'title': 'Scikit learn-based classifier score with probability', 'properties': {'probability': {'properties': {'vandalism': {'type': 'number'}, 'spam': {'type': 'number'}, 'attack': {'type': 'number'}, 'OK': {'type': 'number'}}, 'type': 'object', 'description': 'A mapping of probabilities onto each of the potential output labels'}, 'prediction': {'type': 'string', 'description': 'The most likely label predicted by the estimator'}}, 'type': 'object'}
 
