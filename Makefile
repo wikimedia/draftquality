@@ -264,8 +264,7 @@ datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2: \
 
 #################### Portuguese Wikipedia #######################
 datasets/ptwiki.draft_quality.201903202003.json:
-	wget -q https://quarry.wmflabs.org/run/444292/output/0/json-lines?download=true > $@
-	rm json-lines?download=true
+	wget -qO- https://quarry.wmflabs.org/run/444292/output/0/json-lines?download=true > $@
 
 datasets/ptwiki.draft_quality.balanced_3k.json.bz2: \
 		datasets/ptwiki.draft_quality.201903202003.json
@@ -291,7 +290,7 @@ tuning_reports/ptwiki.draft_quality.md: \
 	bzcat $< | \
 	revscoring tune \
 	  config/classifiers.params.yaml \
-	  draft_quality.feature_lists.ptwiki.draft_quality \
+	  draftquality.feature_lists.ptwiki.draft_quality \
 	  draft_quality \
 	    roc_auc.macro \
 		--scale --center
@@ -303,7 +302,7 @@ models/ptwiki.draft_quality.gradient_boosting.model.bz2: \
 	bzcat $< | \
 	revscoring cv_train \
 	  revscoring.scoring.models.GradientBoosting \
-	  draftquality.feature_lists.ptwiki.draftquality \
+	  draftquality.feature_lists.ptwiki.draft_quality \
 	  draft_quality \
 	  -p 'n_estimators=300' \
 	  -p 'learning_rate=0.1' \
