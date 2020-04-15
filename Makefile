@@ -268,22 +268,22 @@ datasets/ptwiki.draft_quality.201903202003.json:
 
 datasets/ptwiki.draft_quality.balanced_3k.json.bz2: \
 		datasets/ptwiki.draft_quality.201903202003.json
-	(bzcat $< | grep '"draft_quality": "OK"' | shuf -n ; 750; \
-         bzcat $< | grep -v '"draft_quality": "OK"') | \
-        shuf | bzip2 -c > $@
+	(cat $< | grep '"draft_quality": "OK"' | shuf -n 1600; \
+	 cat $< | grep -v '"draft_quality": "OK"') | \
+	shuf | bzip2 -c > $@
 
 datasets/ptwiki.draft_quality.balanced_3k.with_text.json.bz2: \
 		datasets/ptwiki.draft_quality.balanced_3k.json.bz2
 	bzcat $< | \
-        revscoring fetch_text --host https://pt.wikipedia.org --threads 4 \
-         --verbose | bzip2 -c > $@
+	revscoring fetch_text --host https://pt.wikipedia.org --threads 4 \
+	 --verbose | bzip2 -c > $@
 
 datasets/ptwiki.draft_quality.balanced_3k.with_cache.json.bz2: \
 		datasets/ptwiki.draft_quality.balanced_3k.with_text.json.bz2
 	bzcat $< | \
-        articlequality extract_from_text \
-          draftquality.feature_lists.ptwiki.draft_quality \
-          --verbose | bzip2 -c > $@
+	articlequality extract_from_text \
+	  draftquality.feature_lists.ptwiki.draft_quality \
+	  --verbose | bzip2 -c > $@
 
 tuning_reports/ptwiki.draft_quality.md: \
 		datasets/ptwiki.draft_quality.balanced_3k.with_cache.json.bz2
@@ -292,9 +292,12 @@ tuning_reports/ptwiki.draft_quality.md: \
 	  config/classifiers.params.yaml \
 	  draftquality.feature_lists.ptwiki.draft_quality \
 	  draft_quality \
-	    roc_auc.macro \
-		--scale --center
-	  --cv-timeout=90
+		roc_auc.macro \
+		--pop-rate '"OK"=0.97080700532 ' \
+		--pop-rate '"spam"=0.0095278372' \
+		--pop-rate '"unsuitable"=0.01966515747 ' \
+		--scale --center \
+	  --cv-timeout=90 \
 	  --debug > $@
 
 models/ptwiki.draft_quality.gradient_boosting.model.bz2: \
@@ -308,6 +311,9 @@ models/ptwiki.draft_quality.gradient_boosting.model.bz2: \
 	  -p 'learning_rate=0.1' \
 	  -p 'max_depth=5' \
 	  -p 'max_features="log2"' \
+	  --pop-rate '"OK"=0.97080700532 ' \
+	  --pop-rate '"spam"=0.0095278372' \
+	  --pop-rate '"unsuitable"=0.01966515747 ' \
 	  --version $(draft_quality_major_minor).1 | bzip2 -c > $@
 	
 	revscoring model_info $@ > model_info/ptwiki.draft_quality.md
