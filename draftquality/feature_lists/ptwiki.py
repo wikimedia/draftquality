@@ -95,18 +95,42 @@ infobox_templates = wikitext.revision.template_names_matching(
     r"Info", name="ptwiki.revision.infobox_templates")
 
 CN_TEMPLATES = [
-    r"Citation[_ ]needed",
-    r"Cn",
-    r"Fact"
+    r"Carece de fontes",
+    r"Carece de fontes2",
+    r"Carece de fontes/bloco",
+    r"Carece de fontes/bloco2"
 ]
 cn_templates = wikitext.revision.template_names_matching(
     "|".join(CN_TEMPLATES), name="ptwiki.revision.cn_templates")
-who_templates = wikitext.revision.template_names_matching(
-    "Who", name="ptwiki.revision.cn_templates")
+MAIN_TEMPLATES = [
+    r"Artigo[ _]principal",
+    r"Ver[ _]artigo[ _]principali",
+    r"Principal",
+    r"Ver[ _]também artigo[ _]principal",
+    r"Main",
+    r"Detalhes",
+    r"Mais",
+    r"Artigoprincipal",
+    r"AP", r"Details", r"Ver[ _]artigo"
+]
 main_article_templates = wikitext.revision.template_names_matching(
-    "Main", name="ptwiki.main_article_templates")
+    "|".join(MAIN_TEMPLATES), name="ptwiki.main_article_templates")
+CITE_TEMPLATES = [
+    r"Cite",
+    r"Citar",
+    r"Citar web",
+    r"Citar livro",
+    r"Harvard[_ ]citation[_ ]no[_ ]brackets", r"harvnb",
+    r"Harvard citation", r"harv",
+    r"Harvard citation text", r"harvtxt",
+    r"Harvcoltxt",
+    r"Harvcol",
+    r"Harvcolnb",
+    r"Harvard citations", r"harvs",
+    r"Harvp"
+]
 cite_templates = wikitext.revision.template_names_matching(
-    r"^cit(e|ation)", name="ptwiki.revision.cite_templates")
+    "|".join(CITE_TEMPLATES), name="ptwiki.revision.cite_templates")
 proportion_of_templated_references = \
     cite_templates / max(wikitext.revision.ref_tags, 1)
 non_templated_references = max(wikitext.revision.ref_tags - cite_templates, 0)
@@ -117,9 +141,10 @@ non_cite_templates = sub(
 
 # Links
 category_links = wikitext.revision.wikilink_titles_matching(
-    r"Category\:", name="ptwiki.revision.category_links")
+    r"i(Category|Categoria)\:", name="ptwiki.revision.category_links")
 image_links = wikitext.revision.wikilink_titles_matching(
-    r"File|Image\:", name="ptwiki.revision.image_links")
+    r"(File|Image|Ficheiro|Arquivo|Imagem)\:",
+    name="ptwiki.revision.image_links")
 
 local_wiki = [
     image_links,
@@ -136,8 +161,6 @@ local_wiki = [
     infobox_templates,
     cn_templates,
     cn_templates / max(wikitext.revision.content_chars, 1),
-    who_templates,
-    who_templates / max(wikitext.revision.content_chars, 1),
     main_article_templates,
     main_article_templates / max(wikitext.revision.content_chars, 1),
     portuguese.stemmed.revision.stem_chars /
