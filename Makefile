@@ -34,7 +34,7 @@ datasets/enwiki.draft_quality.balanced_200k.json.bz2: \
 datasets/enwiki.draft_quality.balanced_200k.with_text.json.bz2: \
 		datasets/enwiki.draft_quality.balanced_200k.json.bz2
 	bzcat $< | \
-	revscoring fetch_text --host https://en.wikipedia.org --threads 4 \
+	revscoring fetch_text --host https://en.wikipedia.org --threads 4 --login \
 	  --verbose | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.balanced_200k.with_cache.json.bz2: \
@@ -252,7 +252,7 @@ datasets/enwiki.draft_quality.201608-201701.json: \
 datasets/enwiki.draft_quality.201608-201701.with_text.json.bz2: \
 		datasets/enwiki.draft_quality.201608-201701.json
 	cat $< | \
-	revscoring fetch_text --host https://en.wikipedia.org \
+	revscoring fetch_text --host https://en.wikipedia.org --login \
 	  --verbose | bzip2 -c > $@
 
 datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2: \
@@ -275,7 +275,7 @@ datasets/ptwiki.draft_quality.balanced_3k.json.bz2: \
 datasets/ptwiki.draft_quality.balanced_3k.with_text.json.bz2: \
 		datasets/ptwiki.draft_quality.balanced_3k.json.bz2
 	bzcat $< | \
-	revscoring fetch_text --host https://pt.wikipedia.org --threads 4 \
+	revscoring fetch_text --host https://pt.wikipedia.org --threads 4 --login \
 	 --verbose | bzip2 -c > $@
 
 datasets/ptwiki.draft_quality.balanced_3k.with_cache.json.bz2: \
