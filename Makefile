@@ -264,7 +264,8 @@ datasets/enwiki.draft_quality.201608-201701.with_cache.json.bz2: \
 
 #################### Portuguese Wikipedia #######################
 datasets/ptwiki.draft_quality.201903202003.json:
-	wget -qO- https://quarry.wmflabs.org/run/444292/output/0/json-lines?download=true > $@
+	# https://quarry.wmflabs.org/query/43197
+	wget -qO- https://quarry.wmflabs.org/run/453054/output/0/json-lines?download=true > $@
 
 datasets/ptwiki.draft_quality.balanced_3k.json.bz2: \
 		datasets/ptwiki.draft_quality.201903202003.json
