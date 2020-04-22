@@ -308,8 +308,8 @@ models/ptwiki.draft_quality.gradient_boosting.model.bz2: \
 	  revscoring.scoring.models.GradientBoosting \
 	  draftquality.feature_lists.ptwiki.draft_quality \
 	  draft_quality \
-	  -p 'n_estimators=700' \
-	  -p 'learning_rate=0.01' \
+	  -p 'n_estimators=500' \
+	  -p 'learning_rate=0.1' \
 	  -p 'max_depth=7' \
 	  -p 'max_features="log2"' \
 	  --pop-rate '"OK"=0.97080700532 ' \
