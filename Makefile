@@ -294,9 +294,9 @@ tuning_reports/ptwiki.draft_quality.md: \
 	  draftquality.feature_lists.ptwiki.draft_quality \
 	  draft_quality \
 		roc_auc.macro \
-		--pop-rate '"OK"=0.97080700532 ' \
-		--pop-rate '"spam"=0.0095278372' \
-		--pop-rate '"unsuitable"=0.01966515747 ' \
+		--pop-rate '"OK"=0.96174489122' \
+		--pop-rate '"spam"=0.01844264846' \
+		--pop-rate '"unsuitable"=0.0198124603' \
 		--scale --center \
 	  --cv-timeout=90 \
 	  --debug > $@
