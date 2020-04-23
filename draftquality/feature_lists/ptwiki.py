@@ -81,6 +81,12 @@ informals = [
     portuguese.informals.revision.matches / max(wikitext.revision.words, 1)
 ]
 
+words_to_watch = [
+    portuguese.words_to_watch.revision.matches,
+    (portuguese.words_to_watch.revision.matches /
+     max(wikitext.revision.words, 1))
+]
+
 dict_words = [
     portuguese.dictionary.revision.dict_words,
     portuguese.dictionary.revision.non_dict_words,
@@ -169,4 +175,5 @@ local_wiki = [
 
 
 draft_quality = (char_based + token_based + parse_based +
-                 badwords + informals + dict_words + local_wiki)
+                 badwords + informals + words_to_watch + dict_words +
+                 local_wiki)
