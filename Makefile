@@ -312,9 +312,9 @@ models/ptwiki.draft_quality.gradient_boosting.model.bz2: \
 	  -p 'learning_rate=0.1' \
 	  -p 'max_depth=7' \
 	  -p 'max_features="log2"' \
-	  --pop-rate '"OK"=0.97080700532 ' \
-	  --pop-rate '"spam"=0.0095278372' \
-	  --pop-rate '"unsuitable"=0.01966515747 ' \
+	  --pop-rate '"OK"=0.96174489122' \
+	  --pop-rate '"spam"=0.01844264846' \
+	  --pop-rate '"unsuitable"=0.0198124603' \
 	  --version $(draft_quality_major_minor).1 | bzip2 -c > $@
 	
 	revscoring model_info $@ > model_info/ptwiki.draft_quality.md

@@ -1,7 +1,7 @@
 Model Information:
 	 - type: GradientBoosting
 	 - version: 0.2.1
-	 - params: {'loss': 'deviance', 'verbose': 0, 'n_estimators': 700, 'presort': 'auto', 'multilabel': False, 'min_samples_leaf': 1, 'min_impurity_split': None, 'max_depth': 7, 'random_state': None, 'n_iter_no_change': None, 'labels': ['OK', 'spam', 'unsuitable'], 'validation_fraction': 0.1, 'init': None, 'scale': False, 'warm_start': False, 'tol': 0.0001, 'max_features': 'log2', 'center': False, 'min_samples_split': 2, 'min_weight_fraction_leaf': 0.0, 'min_impurity_decrease': 0.0, 'population_rates': None, 'max_leaf_nodes': None, 'subsample': 1.0, 'learning_rate': 0.01, 'label_weights': None, 'criterion': 'friedman_mse'}
+	 - params: {'n_iter_no_change': None, 'loss': 'deviance', 'criterion': 'friedman_mse', 'labels': ['OK', 'spam', 'unsuitable'], 'scale': False, 'multilabel': False, 'min_weight_fraction_leaf': 0.0, 'warm_start': False, 'min_samples_split': 2, 'init': None, 'subsample': 1.0, 'n_estimators': 500, 'max_features': 'log2', 'learning_rate': 0.1, 'validation_fraction': 0.1, 'max_leaf_nodes': None, 'center': False, 'random_state': None, 'presort': 'auto', 'min_impurity_decrease': 0.0, 'label_weights': None, 'tol': 0.0001, 'verbose': 0, 'max_depth': 7, 'population_rates': None, 'min_impurity_split': None, 'min_samples_leaf': 1}
 	Environment:
 	 - revscoring_version: '2.6.9'
 	 - platform: 'Linux-4.9.0-8-amd64-x86_64-with-debian-9.4'
@@ -21,62 +21,62 @@ Model Information:
 	counts (n=4672):
 		label            n         ~OK    ~spam    ~unsuitable
 		------------  ----  ---  -----  -------  -------------
-		'OK'          1600  -->   1277      128            195
-		'spam'        1481  -->     90     1112            279
-		'unsuitable'  1591  -->    171      306           1114
+		'OK'          1600  -->   1265      135            200
+		'spam'        1481  -->     86     1105            290
+		'unsuitable'  1591  -->    172      304           1115
 	rates:
 		              'OK'    'spam'    'unsuitable'
 		----------  ------  --------  --------------
 		sample       0.342     0.317           0.341
-		population   0.971     0.01            0.02
-	match_rate (micro=0.759, macro=0.361):
+		population   0.962     0.018           0.02
+	match_rate (micro=0.74, macro=0.361):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.777   0.142         0.165
-	filter_rate (micro=0.241, macro=0.639):
+		0.764   0.149          0.17
+	filter_rate (micro=0.26, macro=0.639):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.223   0.858         0.835
-	recall (micro=0.796, macro=0.75):
+		0.236   0.851          0.83
+	recall (micro=0.788, macro=0.746):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.798   0.751           0.7
-	!recall (micro=0.913, macro=0.875):
+		0.791   0.746         0.701
+	!recall (micro=0.914, macro=0.873):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.915   0.864         0.846
-	precision (micro=0.97, macro=0.377):
+		0.916   0.862         0.841
+	precision (micro=0.961, macro=0.39):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.997    0.05         0.084
-	!precision (micro=0.145, macro=0.703):
-		  OK    spam    unsuitable
-		----  ------  ------------
-		0.12   0.997         0.993
-	f1 (micro=0.864, macro=0.377):
+		0.996   0.092         0.082
+	!precision (micro=0.181, macro=0.712):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.886   0.095         0.149
-	!f1 (micro=0.233, macro=0.684):
+		0.148   0.994         0.993
+	f1 (micro=0.854, macro=0.397):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.212   0.926         0.914
-	accuracy (micro=0.803, macro=0.836):
+		0.881   0.165         0.146
+	!f1 (micro=0.28, macro=0.697):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.802   0.863         0.843
-	fpr (micro=0.087, macro=0.125):
+		0.255   0.924         0.911
+	accuracy (micro=0.797, macro=0.831):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.085   0.136         0.154
-	roc_auc (micro=0.908, macro=0.891):
+		0.795    0.86         0.838
+	fpr (micro=0.086, macro=0.127):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.909   0.902         0.862
-	pr_auc (micro=0.973, macro=0.438):
+		0.084   0.138         0.159
+	roc_auc (micro=0.903, macro=0.887):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.997   0.133         0.183
+		0.904   0.896         0.859
+	pr_auc (micro=0.964, macro=0.45):
+		   OK    spam    unsuitable
+		-----  ------  ------------
+		0.995   0.202         0.152
 	
-	 - score_schema: {'title': 'Scikit learn-based classifier score with probability', 'properties': {'prediction': {'description': 'The most likely label predicted by the estimator', 'type': 'string'}, 'probability': {'description': 'A mapping of probabilities onto each of the potential output labels', 'properties': {'OK': {'type': 'number'}, 'spam': {'type': 'number'}, 'unsuitable': {'type': 'number'}}, 'type': 'object'}}, 'type': 'object'}
+	 - score_schema: {'type': 'object', 'title': 'Scikit learn-based classifier score with probability', 'properties': {'prediction': {'type': 'string', 'description': 'The most likely label predicted by the estimator'}, 'probability': {'type': 'object', 'description': 'A mapping of probabilities onto each of the potential output labels', 'properties': {'OK': {'type': 'number'}, 'spam': {'type': 'number'}, 'unsuitable': {'type': 'number'}}}}}
 
