@@ -1,12 +1,12 @@
 Model Information:
 	 - type: GradientBoosting
 	 - version: 0.2.1
-	 - params: {'n_iter_no_change': None, 'loss': 'deviance', 'criterion': 'friedman_mse', 'labels': ['OK', 'spam', 'unsuitable'], 'scale': False, 'multilabel': False, 'min_weight_fraction_leaf': 0.0, 'warm_start': False, 'min_samples_split': 2, 'init': None, 'subsample': 1.0, 'n_estimators': 500, 'max_features': 'log2', 'learning_rate': 0.1, 'validation_fraction': 0.1, 'max_leaf_nodes': None, 'center': False, 'random_state': None, 'presort': 'auto', 'min_impurity_decrease': 0.0, 'label_weights': None, 'tol': 0.0001, 'verbose': 0, 'max_depth': 7, 'population_rates': None, 'min_impurity_split': None, 'min_samples_leaf': 1}
+	 - params: {'ccp_alpha': 0.0, 'init': None, 'learning_rate': 0.1, 'warm_start': False, 'min_samples_leaf': 1, 'label_weights': None, 'loss': 'deviance', 'subsample': 1.0, 'min_impurity_decrease': 0.0, 'n_estimators': 500, 'max_leaf_nodes': None, 'multilabel': False, 'random_state': None, 'min_samples_split': 2, 'criterion': 'friedman_mse', 'n_iter_no_change': None, 'center': False, 'validation_fraction': 0.1, 'max_depth': 7, 'verbose': 0, 'tol': 0.0001, 'population_rates': None, 'presort': 'deprecated', 'labels': ['OK', 'spam', 'unsuitable'], 'scale': False, 'min_impurity_split': None, 'max_features': 'log2', 'min_weight_fraction_leaf': 0.0}
 	Environment:
-	 - revscoring_version: '2.6.9'
-	 - platform: 'Linux-4.9.0-8-amd64-x86_64-with-debian-9.4'
+	 - revscoring_version: '2.8.2'
+	 - platform: 'Linux-4.9.0-11-amd64-x86_64-with-debian-9.12'
 	 - machine: 'x86_64'
-	 - version: '#1 SMP Debian 4.9.144-3.1 (2019-02-19)'
+	 - version: '#1 SMP Debian 4.9.189-3+deb9u1 (2019-09-20)'
 	 - system: 'Linux'
 	 - processor: ''
 	 - python_build: ('default', 'Sep 27 2018 17:25:39')
@@ -15,68 +15,68 @@ Model Information:
 	 - python_implementation: 'CPython'
 	 - python_revision: ''
 	 - python_version: '3.5.3'
-	 - release: '4.9.0-8-amd64'
+	 - release: '4.9.0-11-amd64'
 	
 	Statistics:
 	counts (n=4672):
 		label            n         ~OK    ~spam    ~unsuitable
 		------------  ----  ---  -----  -------  -------------
-		'OK'          1600  -->   1265      135            200
-		'spam'        1481  -->     86     1105            290
-		'unsuitable'  1591  -->    172      304           1115
+		'OK'          1600  -->   1286      129            185
+		'spam'        1481  -->     76     1124            281
+		'unsuitable'  1591  -->    169      292           1130
 	rates:
 		              'OK'    'spam'    'unsuitable'
 		----------  ------  --------  --------------
 		sample       0.342     0.317           0.341
 		population   0.962     0.018           0.02
-	match_rate (micro=0.74, macro=0.361):
+	match_rate (micro=0.752, macro=0.361):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.764   0.149          0.17
-	filter_rate (micro=0.26, macro=0.639):
+		0.776   0.143         0.162
+	filter_rate (micro=0.248, macro=0.639):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.236   0.851          0.83
-	recall (micro=0.788, macro=0.746):
+		0.224   0.857         0.838
+	recall (micro=0.801, macro=0.758):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.791   0.746         0.701
-	!recall (micro=0.914, macro=0.873):
+		0.804   0.759          0.71
+	!recall (micro=0.918, macro=0.879):
+		  OK    spam    unsuitable
+		----  ------  ------------
+		0.92   0.868         0.849
+	precision (micro=0.961, macro=0.393):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.916   0.862         0.841
-	precision (micro=0.961, macro=0.39):
+		0.996   0.098         0.087
+	!precision (micro=0.189, macro=0.715):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.996   0.092         0.082
-	!precision (micro=0.181, macro=0.712):
+		0.157   0.995         0.993
+	f1 (micro=0.862, macro=0.406):
+		  OK    spam    unsuitable
+		----  ------  ------------
+		0.89   0.173         0.155
+	!f1 (micro=0.293, macro=0.704):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.148   0.994         0.993
-	f1 (micro=0.854, macro=0.397):
+		0.269   0.927         0.915
+	accuracy (micro=0.81, macro=0.84):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.881   0.165         0.146
-	!f1 (micro=0.28, macro=0.697):
+		0.808   0.866         0.846
+	fpr (micro=0.082, macro=0.121):
+		  OK    spam    unsuitable
+		----  ------  ------------
+		0.08   0.132         0.151
+	roc_auc (micro=0.92, macro=0.897):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.255   0.924         0.911
-	accuracy (micro=0.797, macro=0.831):
+		0.921   0.901         0.867
+	pr_auc (micro=0.965, macro=0.461):
 		   OK    spam    unsuitable
 		-----  ------  ------------
-		0.795    0.86         0.838
-	fpr (micro=0.086, macro=0.127):
-		   OK    spam    unsuitable
-		-----  ------  ------------
-		0.084   0.138         0.159
-	roc_auc (micro=0.903, macro=0.887):
-		   OK    spam    unsuitable
-		-----  ------  ------------
-		0.904   0.896         0.859
-	pr_auc (micro=0.964, macro=0.45):
-		   OK    spam    unsuitable
-		-----  ------  ------------
-		0.995   0.202         0.152
+		0.996   0.213         0.174
 	
-	 - score_schema: {'type': 'object', 'title': 'Scikit learn-based classifier score with probability', 'properties': {'prediction': {'type': 'string', 'description': 'The most likely label predicted by the estimator'}, 'probability': {'type': 'object', 'description': 'A mapping of probabilities onto each of the potential output labels', 'properties': {'OK': {'type': 'number'}, 'spam': {'type': 'number'}, 'unsuitable': {'type': 'number'}}}}}
+	 - score_schema: {'title': 'Scikit learn-based classifier score with probability', 'properties': {'probability': {'description': 'A mapping of probabilities onto each of the potential output labels', 'properties': {'spam': {'type': 'number'}, 'unsuitable': {'type': 'number'}, 'OK': {'type': 'number'}}, 'type': 'object'}, 'prediction': {'description': 'The most likely label predicted by the estimator', 'type': 'string'}}, 'type': 'object'}
 
