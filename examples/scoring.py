@@ -8,6 +8,6 @@ model = Model.load(
 
 extractor = api.Extractor(
     mwapi.Session(host="https://pt.wikipedia.org",
-    user_agent="draftquality test"))
+                  user_agent="draftquality test"))
 values = extractor.extract(58071111, model.features)
 print(model.score(values))
