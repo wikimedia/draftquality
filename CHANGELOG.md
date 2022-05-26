@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.0.3]
+- Allow requirement for revscoring 2.11.x
+- Rebuilds models with revscoring-2.8.2
+- Update deploy script to explicitly install twine.
+- Retuned and retrained ptwiki model with more data
+
 ## [0.0.2]
 
 ### Added
