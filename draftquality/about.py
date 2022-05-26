@@ -1,5 +1,5 @@
 __name__ = "draftquality"
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __author__ = "Aaron Halfaker"
 __author_email__ = "ahalfaker@wikimedia.org"
 __description__ = "A library for performing automatic detection of the " + \
