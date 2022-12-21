@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [0.0.4]
+
+### Added
+* Add Github Action that build & pushes to PYPI index
+
 ## [0.0.3]
 - Allow requirement for revscoring 2.11.x
 - Rebuilds models with revscoring-2.8.2
